@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "IniFile.hpp"
+#include "Trails.h"
 
 //Macros
 #define ReplacePVM(a, b) helperFunctions.ReplaceFile("system\\" a ".PVM", "system\\" b ".PVM");
@@ -10,14 +11,16 @@ static int Pride = LGBT;
 void Init_Trails()
 {
 	WriteData((void**)0x494081, (void*)SonicDashTrail_Init);
+	SONIC_OBJECTS[57] = &object_0061AA94;
 }
 
 extern "C"
 {
 	__declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
 	{
+		HMODULE handle = GetModuleHandle(L"CHRMODELS_orig");
+		NJS_OBJECT** ___SONIC_OBJECTS = (NJS_OBJECT**)GetProcAddress(handle, "___SONIC_OBJECTS");
 		Init_Trails();
-
 		//Functions
 		const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
 		std::string Pride_String = "LGBT";
